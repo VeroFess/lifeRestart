@@ -9,7 +9,7 @@ class App{
     #life;
     #pages;
     #talentSelected = new Set();
-    #totalMax=20;
+    #totalMax=1000;
     #isEnd = false;
     #selectedExtendTalent = null;
     #hintTimeout;
@@ -85,11 +85,6 @@ class App{
                                 li.removeClass('selected')
                                 this.#talentSelected.delete(talent);
                             } else {
-                                if(this.#talentSelected.size==3) {
-                                    this.hint('只能选3个天赋');
-                                    return;
-                                }
-
                                 const exclusive = this.#life.exclusive(
                                     Array.from(this.#talentSelected).map(({id})=>id),
                                     talent.id
@@ -113,10 +108,6 @@ class App{
         talentPage
             .find('#next')
             .click(()=>{
-                if(this.#talentSelected.size!=3) {
-                    this.hint('请选择3个天赋');
-                    return;
-                }
                 this.#totalMax = 20 + this.#life.getTalentAllocationAddition(Array.from(this.#talentSelected).map(({id})=>id));
                 this.switch('property');
             })
@@ -188,10 +179,10 @@ class App{
             return {group, get, set};
         }
 
-        groups.CHR = getBtnGroups("颜值", 0, 10); // 颜值 charm CHR
-        groups.INT = getBtnGroups("智力", 0, 10); // 智力 intelligence INT
-        groups.STR = getBtnGroups("体质", 0, 10); // 体质 strength STR
-        groups.MNY = getBtnGroups("家境", 0, 10); // 家境 money MNY
+        groups.CHR = getBtnGroups("颜值", 0, 500); // 颜值 charm CHR
+        groups.INT = getBtnGroups("智力", 0, 500); // 智力 intelligence INT
+        groups.STR = getBtnGroups("体质", 0, 500); // 体质 strength STR
+        groups.MNY = getBtnGroups("家境", 0, 500); // 家境 money MNY
 
         const ul = propertyPage.find('#propertyAllocation');
 
@@ -203,9 +194,9 @@ class App{
             .find('#random')
             .click(()=>{
                 let t = this.#totalMax;
-                const arr = [10, 10, 10, 10];
+                const arr = [500, 500, 500, 500];
                 while(t>0) {
-                    const sub = Math.round(Math.random() * (Math.min(t, 10) - 1)) + 1;
+                    const sub = Math.round(Math.random() * (Math.min(t, 500) - 1)) + 1;
                     while(true) {
                         const select = Math.floor(Math.random() * 4) % 4;
                         if(arr[select] - sub <0) continue;
@@ -214,10 +205,10 @@ class App{
                         break;
                     }
                 }
-                groups.CHR.set(10 - arr[0]);
-                groups.INT.set(10 - arr[1]);
-                groups.STR.set(10 - arr[2]);
-                groups.MNY.set(10 - arr[3]);
+                groups.CHR.set(500 - arr[0]);
+                groups.INT.set(500 - arr[1]);
+                groups.STR.set(500 - arr[2]);
+                groups.MNY.set(500 - arr[3]);
             });
 
         propertyPage
