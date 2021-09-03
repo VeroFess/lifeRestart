@@ -55,25 +55,7 @@ class Talent {
             else talentList[grade].push({ grade, name, description, id });
         }
 
-        return new Array(100)
-            .fill(1).map((v, i)=>{
-                try {
-                    if(!i && include) return include;
-                    const gradeRandom = Math.random();
-                    let grade;
-                    if(gradeRandom>=0.111) grade = 0;
-                    else if(gradeRandom>=0.011) grade = 1;
-                    else if(gradeRandom>=0.001) grade = 2;
-                    else grade = 3;
-
-                    while(talentList[grade].length == 0) grade--;
-
-                    const length = talentList[grade].length;
-
-                    const random = Math.floor(Math.random()*length) % length;
-                    return talentList[grade].splice(random,1)[0];
-                } catch(err) {}
-            });
+        return talentList[0].concat(talentList[1]).concat(talentList[2]).concat(talentList[3])
     }
 
     allocationAddition(talents) {
